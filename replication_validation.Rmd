@@ -1,6 +1,6 @@
 
 
-### Validation figure 5, 6 with the attracted developers and social media posts within one year after project creation
+### Validate figure 5 with the attracted developers and social media posts within one year after project creation
 ```{r}
 library(DescTools)
 library(dplyr)
@@ -11,7 +11,7 @@ library(gridExtra)
 library(relaimpo)
 library(gdata)
 
-community_name = 'R' # R or Python
+community_name = 'Python' # R or Python
 
 longitudional_peak_media = read_csv(sprintf('./data/media_post_relative_time_com_%s_no_so.csv', community_name))
 
@@ -46,17 +46,17 @@ data_no_outlier = subset(df_data, tw_count < exp(5)
                                  & hn_count < exp(2)
                                  & rd_count < exp(2)
                                  & one_hop_stargazer_count < exp(2)
-                                 & two_hop_stargazer_count < exp(4)
+                                 & two_hop_stargazer_count < exp(3)
                                  & three_hop_stargazer_count < exp(4)
-                                 & fourormore_hop_stargazer_count < exp(8)
+                                 & fourormore_hop_stargazer_count < exp(7)
                                  & one_hop_dev_count < exp(2)
                                  & two_hop_dev_count < exp(2)
-                                 & three_hop_dev_count < exp(3) 
-                                 & fourormore_hop_dev_count < exp(4)
+                                 & three_hop_dev_count < exp(2) 
+                                 & fourormore_hop_dev_count < exp(3)
                                  & one_hop_gh_user_count < exp(8)
                                  & two_hop_gh_user_count < exp(12)
                                  & fourormore_hop_user_count >= exp(10)
-                                 & project_history_count >= 365)
+                                 & project_history_count > exp(2))
 
 }
 hist(log(df_data$tw_count+1))
@@ -134,7 +134,6 @@ one_hop_star = lm(log(one_hop_stargazer_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_stargazer + 1)
                    , data = data_no_outlier)
 
 summary(one_hop_star)
@@ -155,7 +154,6 @@ two_hop_star = lm(log(two_hop_stargazer_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_stargazer + 1)
                    , data = data_no_outlier)
 
 summary(two_hop_star)
@@ -176,7 +174,6 @@ three_hop_star = lm(log(three_hop_stargazer_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_stargazer + 1)
                    , data = data_no_outlier)
 
 summary(three_hop_star)
@@ -199,7 +196,6 @@ fourormore_hop_star = lm(log(fourormore_hop_stargazer_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_stargazer + 1)
                    , data = data_no_outlier)
 
 summary(fourormore_hop_star)
@@ -330,7 +326,6 @@ one_hop_dev = lm(log(one_hop_dev_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_dev + 1)
                    , data = data_no_outlier)
 
 summary(one_hop_dev)
@@ -351,7 +346,6 @@ two_hop_dev = lm(log(two_hop_dev_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_dev + 1)
                    , data = data_no_outlier)
 
 summary(two_hop_dev)
@@ -372,7 +366,6 @@ three_hop_dev = lm(log(three_hop_dev_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_dev + 1)
                    , data = data_no_outlier)
 
 summary(three_hop_dev)
@@ -393,7 +386,6 @@ fourormore_hop_dev = lm(log(fourormore_hop_dev_count + 1) ~
                    + log(three_hop_gh_user_count + 1)
                    + log(fourormore_hop_user_count + 1)
                    + log(project_history_count + 1)
-                   # + log(all_dev + 1)
                    , data = data_no_outlier)
 
 summary(fourormore_hop_dev)
@@ -525,7 +517,7 @@ ggsave(file=sprintf('./figure/association_%s_oneyear.pdf', community_name), widt
 
 
 
-### Generate Figure 6 in the paper
+### Validate figure 6 with the attracted developers and social media posts within one year after project creation
 ```{r}
 
 legend_font_size = 28
